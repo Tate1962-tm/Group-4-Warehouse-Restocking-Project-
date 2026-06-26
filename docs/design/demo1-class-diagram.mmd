@@ -1,0 +1,48 @@
+classDiagram
+    class User {
+        -String username
+        -String passwordHash
+        -Role role
+        +authenticate(password) boolean
+        +getRole() Role
+    }
+
+    class Role {
+        <<enumeration>>
+        ADMIN
+        MANAGER
+        WORKER
+    }
+
+    class Item {
+        -String sku
+        -String description
+        -String supplier
+        -String unitOfMeasure
+        +validate() boolean
+    }
+
+    class WarehouseLocation {
+        -String id
+        -String name
+        -String type
+        -WarehouseLocation parent
+        +getFullPath() String
+    }
+
+    class AuthService {
+        -UserRepository userRepository
+        +login(username, password) User
+        +hasRole(user, role) boolean
+        +createUser(admin, user) void
+    }
+
+    class UserRepository {
+        +findByUsername(username) User
+        +save(user) void
+        +delete(username) void
+    }
+
+    User --> Role
+    AuthService --> UserRepository
+    UserRepository --> User

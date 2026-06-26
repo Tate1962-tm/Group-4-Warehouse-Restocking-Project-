@@ -1,0 +1,22 @@
+flowchart LR
+    subgraph Actors
+        M[Manager]
+        W[Worker]
+        SYS[System Engine]
+    end
+
+    subgraph UseCases
+        UC1[Evaluate Thresholds]
+        UC2[Generate Restock Task]
+        UC3[Assign Task to Worker]
+        UC4[Complete Restock Task]
+        UC5[Batch Process Tasks]
+    end
+
+    SYS --> UC1
+    UC1 --> UC2
+    M --> UC3
+    W --> UC4
+    M --> UC5
+    UC2 --> UC3
+    UC3 --> UC4

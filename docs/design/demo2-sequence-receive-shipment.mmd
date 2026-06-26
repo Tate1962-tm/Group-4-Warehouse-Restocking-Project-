@@ -1,0 +1,17 @@
+sequenceDiagram
+    actor Worker
+    participant InventoryService
+    participant InventoryRepository
+    participant AuditLogRepository
+
+    Worker->>InventoryService: receiveShipment(itemId, locationId, quantity)
+    InventoryService->>InventoryRepository: findByItemAndLocation(itemId, locationId)
+    alt record exists
+        InventoryRepository-->>InventoryService: InventoryRecord
+        InventoryService->>InventoryService: increaseQuantity(quantity)
+    else no record
+        InventoryService->>InventoryService: createInventoryRecord(itemId, locationId, quantity)
+    end
+    InventoryService->>InventoryRepository: save(record)
+    InventoryService->>AuditLogRepository: log(RECEIVE, itemId, locationId, quantity)
+    InventoryService-->>Worker: updated InventoryRecord
