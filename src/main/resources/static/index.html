@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWRS — Automated Warehouse Restock System</title>
+  <link rel="icon" type="image/png" href="/images/logo.png">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+
+  <!-- Login -->
+  <div id="login-page" class="login-page">
+    <div class="login-card">
+      <img src="/images/logo.png" alt="AWRS Logo" class="login-logo">
+      <h1>AWRS</h1>
+      <p class="subtitle">Automated Warehouse Restock System</p>
+      <div id="login-error" class="error-msg"></div>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="Enter username" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter password" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary">Sign In</button>
+      </form>
+      <div class="demo-hint">
+        <strong>Demo accounts:</strong><br>
+        Admin — <code>admin</code> / <code>admin123</code><br>
+        Manager — <code>manager</code> / <code>manager123</code><br>
+        Worker — <code>worker</code> / <code>worker123</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- App -->
+  <div id="app-shell" class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="/images/logo.png" alt="AWRS">
+        <div class="brand-text">
+          <h2>AWRS</h2>
+          <span>Warehouse System</span>
+        </div>
+      </div>
+      <nav class="nav-menu" id="nav-menu">
+        <button class="nav-item active" data-page="dashboard"><span class="icon">📊</span> Dashboard</button>
+        <button class="nav-item" data-page="items"><span class="icon">📦</span> Item Catalog</button>
+        <button class="nav-item" data-page="locations"><span class="icon">📍</span> Locations</button>
+        <button class="nav-item" data-page="receive"><span class="icon">📥</span> Receive Shipment</button>
+        <button class="nav-item" data-page="fulfill"><span class="icon">📤</span> Fulfill Order</button>
+        <button class="nav-item manager-only" data-page="adjust"><span class="icon">✏️</span> Adjustments</button>
+        <button class="nav-item" data-page="restock"><span class="icon">🔄</span> Restock Tasks</button>
+        <button class="nav-item" data-page="audit"><span class="icon">📋</span> Audit Log</button>
+        <button class="nav-item" data-page="reports"><span class="icon">📈</span> Reports</button>
+        <button class="nav-item admin-only" data-page="users"><span class="icon">👥</span> User Management</button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar" id="user-avatar">A</div>
+          <div class="user-info">
+            <div class="name" id="user-name">—</div>
+            <div class="role" id="user-role">—</div>
+          </div>
+        </div>
+        <button class="btn btn-outline btn-sm" style="width:100%;color:#fff;border-color:rgba(255,255,255,0.2)" id="logout-btn">Sign Out</button>
+      </div>
+    </aside>
+
+    <main class="main-content" id="main-content">
+      <!-- Dashboard -->
+      <section id="page-dashboard" class="page active">
+        <div class="page-header"><h1>Dashboard</h1><p>Real-time inventory health and alerts</p></div>
+        <div class="stats-grid" id="dash-stats"></div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-header"><h3>⚠️ Low Stock Alerts</h3></div>
+            <div class="panel-body" id="dash-alerts"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><h3>🔔 Urgent Restock Tasks</h3></div>
+            <div class="panel-body" id="dash-tasks"></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><h3>Recent Activity</h3></div>
+          <div class="panel-body" id="dash-activity"></div>
+        </div>
+      </section>
+
+      <!-- Items -->
+      <section id="page-items" class="page">
+        <div class="page-header"><h1>Item Catalog</h1><p>Manage warehouse items and restock thresholds</p></div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-header"><h3>All Items</h3></div>
+            <div class="panel-body" id="items-list"></div>
+          </div>
+          <div class="panel manager-only">
+            <div class="panel-header"><h3>Add New Item</h3></div>
+            <div class="panel-body">
+              <form id="item-form">
+                <div class="form-group"><label>SKU</label><input name="sku" required placeholder="SKU-003"></div>
+                <div class="form-group"><label>Description</label><input name="description" required placeholder="Product name"></div>
+                <div class="form-row">
+                  <div class="form-group"><label>Supplier</label><input name="supplier" placeholder="Supplier name"></div>
+                  <div class="form-group"><label>Unit</label><input name="unitOfMeasure" value="EA"></div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group"><label>Min Threshold</label><input name="minimumThreshold" type="number" value="10" min="0"></div>
+                  <div class="form-group"><label>Reorder Point</label><input name="reorderPoint" type="number" value="30" min="0"></div>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Item</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Locations -->
+      <section id="page-locations" class="page">
+        <div class="page-header"><h1>Warehouse Locations</h1><p>Hierarchical storage locations</p></div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-header"><h3>All Locations</h3></div>
+            <div class="panel-body" id="locations-list"></div>
+          </div>
+          <div class="panel manager-only">
+            <div class="panel-header"><h3>Add Location</h3></div>
+            <div class="panel-body">
+              <form id="location-form">
+                <div class="form-group"><label>Location ID</label><input name="id" required placeholder="WH1-A2-S1-B1"></div>
+                <div class="form-group"><label>Name</label><input name="name" required placeholder="Bin 2"></div>
+                <div class="form-row">
+                  <div class="form-group"><label>Type</label>
+                    <select name="type"><option>BIN</option><option>SHELF</option><option>AISLE</option><option>WAREHOUSE</option></select>
+                  </div>
+                  <div class="form-group"><label>Parent ID</label><input name="parentId" placeholder="Optional parent"></div>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Location</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Receive -->
+      <section id="page-receive" class="page">
+        <div class="page-header"><h1>Receive Shipment</h1><p>Record incoming inventory at a location</p></div>
+        <div class="panel" style="max-width:560px">
+          <div class="panel-body">
+            <form id="receive-form">
+              <div class="form-group"><label>Item SKU</label><select name="itemSku" id="receive-item" required></select></div>
+              <div class="form-group"><label>Location</label><select name="locationId" id="receive-location" required></select></div>
+              <div class="form-group"><label>Quantity</label><input name="quantity" type="number" min="1" required placeholder="100"></div>
+              <button type="submit" class="btn btn-primary">Receive Shipment</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Fulfill -->
+      <section id="page-fulfill" class="page">
+        <div class="page-header"><h1>Fulfill Order</h1><p>Deduct inventory for outgoing orders</p></div>
+        <div class="panel" style="max-width:560px">
+          <div class="panel-body">
+            <form id="fulfill-form">
+              <div class="form-group"><label>Item SKU</label><select name="itemSku" id="fulfill-item" required></select></div>
+              <div class="form-group"><label>Location</label><select name="locationId" id="fulfill-location" required></select></div>
+              <div class="form-group"><label>Quantity</label><input name="quantity" type="number" min="1" required placeholder="10"></div>
+              <button type="submit" class="btn btn-secondary">Fulfill Order</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Adjust -->
+      <section id="page-adjust" class="page">
+        <div class="page-header"><h1>Inventory Adjustment</h1><p>Manual corrections — requires Manager or Admin</p></div>
+        <div class="panel" style="max-width:560px">
+          <div class="panel-body">
+            <form id="adjust-form">
+              <div class="form-group"><label>Item SKU</label><select name="itemSku" id="adjust-item" required></select></div>
+              <div class="form-group"><label>Location</label><select name="locationId" id="adjust-location" required></select></div>
+              <div class="form-group"><label>New Quantity</label><input name="newQuantity" type="number" min="0" required></div>
+              <div class="form-group"><label>Reason</label><input name="reason" required placeholder="Cycle count, damage, loss..."></div>
+              <button type="submit" class="btn btn-primary">Submit Adjustment</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Restock -->
+      <section id="page-restock" class="page">
+        <div class="page-header">
+          <h1>Restock Tasks</h1>
+          <p>Automated low-stock detection and task management</p>
+        </div>
+        <div class="form-actions" style="margin-bottom:1.5rem">
+          <button class="btn btn-primary" id="batch-evaluate-btn">⚡ Batch Evaluate All</button>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><h3>All Tasks</h3><span id="restock-count"></span></div>
+          <div class="panel-body" id="restock-list"></div>
+        </div>
+      </section>
+
+      <!-- Audit -->
+      <section id="page-audit" class="page">
+        <div class="page-header"><h1>Audit Log</h1><p>Complete transaction history</p></div>
+        <div class="panel">
+          <div class="panel-body" id="audit-list"></div>
+        </div>
+      </section>
+
+      <!-- Reports -->
+      <section id="page-reports" class="page">
+        <div class="page-header"><h1>Reports</h1><p>Inventory health and restock analytics</p></div>
+        <div class="stats-grid" id="report-stats"></div>
+        <div class="panel">
+          <div class="panel-header"><h3>Stock Movement Summary</h3></div>
+          <div class="panel-body" id="report-movement"></div>
+        </div>
+      </section>
+
+      <!-- Users -->
+      <section id="page-users" class="page">
+        <div class="page-header"><h1>User Management</h1><p>Admin — create and manage user accounts</p></div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-header"><h3>All Users</h3></div>
+            <div class="panel-body" id="users-list"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><h3>Create User</h3></div>
+            <div class="panel-body">
+              <form id="user-form">
+                <div class="form-group"><label>Username</label><input name="username" required></div>
+                <div class="form-group"><label>Password</label><input name="password" type="password" required></div>
+                <div class="form-group"><label>Role</label>
+                  <select name="role"><option value="WORKER">Worker</option><option value="MANAGER">Manager</option><option value="ADMIN">Admin</option></select>
+                </div>
+                <button type="submit" class="btn btn-primary">Create User</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
