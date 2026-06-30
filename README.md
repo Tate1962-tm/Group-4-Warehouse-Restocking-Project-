@@ -31,13 +31,25 @@ A full-stack warehouse inventory management application with automated restockin
 
 ## Quick Start
 
+### Windows — one command (opens browser automatically)
+
+Double-click **`run.bat`** or in PowerShell:
+
+```powershell
+.\run.ps1
+```
+
+Or manually:
+
 ```bash
 # Run the application
 mvn spring-boot:run
 
-# Open in browser
+# Open in browser (use http NOT https)
 http://localhost:8080
 ```
+
+**Important:** Use **`http://localhost:8080`** — do **NOT** use `https://`. Spring Boot runs on plain HTTP.
 
 ## Demo Accounts
 

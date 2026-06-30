@@ -62,6 +62,18 @@ Started AwrsApplication
 
 Go to: **http://localhost:8080**
 
+**Do NOT use `https://`** — that causes a Whitelabel 404 error.
+
+Or double-click **`run.bat`** in the project folder — it starts the server and opens the browser automatically.
+
+### One-command option (Windows)
+
+```powershell
+.\run.ps1
+```
+
+Or double-click `run.bat`.
+
 ### 5. Log in
 
 | Role | Username | Password |
@@ -120,9 +132,16 @@ Then open **http://localhost:8081**
 You are still in the **old project** (tests only, no Spring Boot).  
 Use **Option A** above — clone `awrs-web` from GitHub. Do **not** use the old `pom.xml` without Spring Boot.
 
-### Browser shows nothing / connection refused
+### Browser shows Whitelabel Error / 404 "No static resource"
 
-The server is not running yet. Wait for `Started AwrsApplication` in the terminal before opening the browser.
+**Most common cause:** You used **`https://localhost:8080`** instead of **`http://localhost:8080`**.
+
+Fix: Type exactly **`http://localhost:8080`** in the address bar (no `s` in http).
+
+Also check:
+- `src/main/resources/static/index.html` exists in your project
+- Run `mvn clean spring-boot:run` (not just `mvn test`)
+- Wait for `Started AwrsApplication` before opening the browser
 
 ---
 
