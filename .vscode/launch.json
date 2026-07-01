@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "AWRS Desktop App",
+      "request": "launch",
+      "mainClass": "com.awrs.desktop.DesktopLauncher",
+      "projectName": "awrs",
+      "vmArgs": "--module-path \"${env:USERPROFILE}\\.m2\\repository\\org\\openjfx\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
+      "name": "AWRS Web Server (browser)",
+      "request": "launch",
+      "mainClass": "com.awrs.AwrsApplication",
+      "projectName": "awrs"
+    }
+  ]
+}

@@ -31,25 +31,35 @@ A full-stack warehouse inventory management application with automated restockin
 
 ## Quick Start
 
-### Windows — one command (opens browser automatically)
+### Desktop app (recommended — pops up as a window, NO browser)
 
-Double-click **`run.bat`** or in PowerShell:
+**VS Code:** Press **F5** → choose **"AWRS Desktop App"**
+
+**Or run in terminal:**
+
+```powershell
+.\run-desktop.ps1
+```
+
+Or double-click **`run-desktop.bat`**
+
+Or:
+
+```bash
+mvn javafx:run
+```
+
+Login with `admin` / `admin123`. The app window opens directly — no website needed.
+
+---
+
+### Web version (optional — opens in browser)
 
 ```powershell
 .\run.ps1
 ```
 
-Or manually:
-
-```bash
-# Run the application
-mvn spring-boot:run
-
-# Open in browser (use http NOT https)
-http://localhost:8080
-```
-
-**Important:** Use **`http://localhost:8080`** — do **NOT** use `https://`. Spring Boot runs on plain HTTP.
+Open **http://localhost:8080** (use `http` NOT `https`)
 
 ## Demo Accounts
 

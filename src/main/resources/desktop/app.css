@@ -1,0 +1,74 @@
+.login-root {
+    -fx-background-color: linear-gradient(to bottom right, #152a45, #1e3a5f);
+}
+
+.main-root {
+    -fx-background-color: #f0f4f8;
+}
+
+.title {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e3a5f;
+}
+
+.subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #64748b;
+}
+
+.brand {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.user-label {
+    -fx-text-fill: #e2e8f0;
+    -fx-font-size: 12px;
+}
+
+.hint {
+    -fx-font-size: 11px;
+    -fx-text-fill: #64748b;
+    -fx-wrap-text: true;
+    -fx-max-width: 320px;
+    -fx-alignment: center;
+}
+
+.error {
+    -fx-text-fill: #ef4444;
+    -fx-wrap-text: true;
+}
+
+.top-bar {
+    -fx-background-color: #152a45;
+}
+
+.primary-button {
+    -fx-background-color: #f97316;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 8;
+}
+
+.primary-button:hover {
+    -fx-background-color: #fb923c;
+}
+
+.text-field, .password-field, .combo-box, .spinner {
+    -fx-padding: 8;
+}
+
+.tab-pane .tab-header-area .tab {
+    -fx-padding: 8 14;
+}
+
+.table-view {
+    -fx-background-radius: 8;
+}
+
+.button {
+    -fx-background-radius: 6;
+}
